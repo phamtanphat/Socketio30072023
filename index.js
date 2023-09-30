@@ -7,7 +7,11 @@ app.get("/", (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    console.log(`New user connect ${socket.id}`)
+    // Lắng nghe tin nhắn của client
+    socket.on('on-chat', data => {
+        // Phát tin nhắn cho tất cả client
+        io.emit("user-chat", data)
+    })
 })
 
 server.listen(3000, () => {
