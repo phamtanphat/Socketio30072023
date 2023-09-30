@@ -1,7 +1,21 @@
-const express = require('express')
-const app = express()
-var bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+const app = require('express')();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`)
+})
+
+io.on('connection', (socket) => {
+    console.log(`New user connect ${socket.id}`)
+})
+
+server.listen(3000, () => {
+    console.log("Socket.io server running at http://localhost:3000/")
+})
+
+// var bodyParser = require("body-parser");
+// app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 // Method Get: Tương tác với thanh địa chỉ
 
@@ -22,5 +36,3 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 //     let { email, password } = req.body
 //     console.log(email, password)
 // })
-
-app.listen(3000)
